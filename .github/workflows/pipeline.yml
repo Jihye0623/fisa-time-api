@@ -1,0 +1,32 @@
+name: Data Collection Pipeline
+
+on:
+  push:      
+  pull_request:
+  workflow_dispatch: 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
+
+    - name: Run collection script
+      run: python collect.py
+
+    - name: Verify file content
+      run: |
+        echo "--- /tmp/서지혜_test.json 내용 확인 ---"
+        cat /tmp/서지혜_test.json
