@@ -24,7 +24,7 @@ if os.path.exists(repo_file):
 response = requests.get(url)
 if response.status_code == 200:
     new_data = response.json()
-    new_data['collected_at'] = str(datetime.now()) # 언제 수집했는지 기록 (선택사항)
+    new_data['collected_at'] = str(datetime.now())
     data_list.append(new_data)
 
     with open(tmp_file, "w", encoding="utf-8") as f:
