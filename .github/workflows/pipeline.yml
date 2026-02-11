@@ -2,7 +2,7 @@ name: Data Collection Pipeline
 
 on:
   push:
-  workflow_dispatch: 
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -22,24 +22,22 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
         pip install requests
 
     - name: Run collection script
       run: python collect.py
 
+    - name: Move file from /tmp to repo
+      run: |
+        echo "Moving file from /tmp/..."
+        cp -f /tmp/서지혜_test.json ./서지혜_test.json
+
     - name: Commit and Push changes
       run: |
-        # 1. 깃 설정 (가상의 유저 정보 입력)
         git config --global user.name "GitHub Actions Bot"
         git config --global user.email "actions@github.com"
         
-        # 2. 변경된 파일 담기 (data 폴더)
-        git add data/
+        git add 서지혜_test.json
         
-        # 3. 커밋하기 (변경사항이 있을 때만 실행)
-        # "|| echo..." 부분은 변경사항이 없어도 에러가 나지 않게 막아줍니다.
-        git commit -m "Auto-update: data collected by GitHub Actions" || echo "No changes to commit"
-        
-        # 4. 레포지토리로 밀어넣기
+        git commit -m "Auto-update: Data moved from /tmp and saved" || echo "No changes to commit"
         git push
